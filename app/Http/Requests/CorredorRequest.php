@@ -2,20 +2,25 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Corredor;
+
 class CorredorRequest extends BaseRequest
 {
+    public function __construct(Corredor $model)
+    {
+        $this->model = $model;
+    }
+
     public function sanitizers()
     {
-        return [
-            'cpf' => 'filter_var:' . FILTER_SANITIZE_NUMBER_INT,
-        ];
+        return ['cpf' => 'cpf'];
     }
 
     public function rules()
     {
         return [
             'nome' => 'required',
-            'cpf' => 'required|numeric|size:11',
+            'cpf' => 'required|numeric|regex:/^\d{11}$/',
             'data_nascimento' => [
                 'required',
                 function ($attribute, $value, $fail) {

@@ -21,8 +21,8 @@ class CreateResultadosTable extends Migration
                 ->references('id')
                 ->on('corredores_provas');
 
-            $table->time('inicio');
-            $table->time('fim');
+            $table->time('hora_ini');
+            $table->time('hora_fim');
 
             $table->timestamps();
         });

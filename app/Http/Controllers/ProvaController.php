@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ProvaRequest;
 
 class ProvaController extends Controller
 {
-    //
+    public function store(ProvaRequest $request)
+    {
+        return $request->store();
+    }
 }

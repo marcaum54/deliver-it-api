@@ -22,4 +22,6 @@ class Prova extends Model
         self::TIPO_21KM,
         self::TIPO_42KM,
     ];
+
+    protected $fillable = ['tipo', 'data'];
 }

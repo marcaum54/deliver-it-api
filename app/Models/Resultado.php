@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Resultado extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['hora_ini', 'hora_fim'];
 }

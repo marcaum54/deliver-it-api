@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Prova;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,14 +17,9 @@ class CreateProvasTable extends Migration
         Schema::create('provas', function (Blueprint $table) {
             $table->id();
 
-            $table->string('tipo', [
-                '3KM',
-                '5KM',
-                '10KM',
-                '21KM',
-                '42KM',
-            ]);
+            $table->unique(['tipo', 'data']);
 
+            $table->enum('tipo', Prova::TIPOS);
             $table->date('data');
 
             $table->timestamps();

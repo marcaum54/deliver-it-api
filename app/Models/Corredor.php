@@ -10,4 +10,6 @@ class Corredor extends Model
     use HasFactory;
 
     protected $table = 'corredores';
+
+    protected $fillable = ['nome', 'cpf', 'data_nascimento'];
 }

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CorredorController;
+use App\Http\Controllers\ProvaController;
+use App\Http\Controllers\ResultadoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'Deliver IT API: Online';
 });
+
+Route::post('/corredor', [CorredorController::class, 'store'])->name('corredor.store');
+Route::post('/prova', [ProvaController::class, 'store'])->name('prova.store');
+Route::post('/resultado', [ResultadoController::class, 'store'])->name('resultado.store');
+
+Route::post('/resultado/por-idade', [ResultadoController::class, 'porIdade'])->name('resultado.por-idade');
+Route::post('/resultado/por-distancia', [ResultadoController::class, 'porDistancia'])->name('resultado.por-distancia');

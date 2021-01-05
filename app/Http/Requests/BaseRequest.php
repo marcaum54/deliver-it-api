@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Lukzgois\Sanitizer\Sanitizer;
+use App\Sanitizers\Sanitizer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BaseRequest extends FormRequest
@@ -26,15 +26,15 @@ class BaseRequest extends FormRequest
             if (!$value)
                 unset($sanitizers[$field]);
 
-        $sanitizer = new Sanitizer($values, $sanitizers);
+        $sanitizer = new Sanitizer($sanitizers);
         $sanitizedData = $sanitizer->sanitize($values);
 
         if ($sanitizedData)
             $this->replace($sanitizedData);
     }
 
-    public function is_edit()
+    public function store()
     {
-        return in_array($this->method(), ['PUT', 'PATCH']);
+        return $this->model->create($this->all());
     }
 }
