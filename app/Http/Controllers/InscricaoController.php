@@ -6,8 +6,8 @@ use App\Http\Requests\InscricaoRequest;
 
 class InscricaoController extends Controller
 {
-    public function __construct(InscricaoRequest $request)
+    public function store(InscricaoRequest $request)
     {
-        $this->request = $request;
+        return $request->store();
     }
 }

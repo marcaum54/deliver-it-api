@@ -26,5 +26,5 @@ Route::post('/prova', [ProvaController::class, 'store'])->name('prova.store');
 Route::post('/inscricao', [InscricaoController::class, 'store'])->name('inscricao.store');
 Route::post('/resultado', [ResultadoController::class, 'store'])->name('resultado.store');
 
-Route::post('/resultado/{prova}/por-idade', [ResultadoController::class, 'porIdade'])->name('resultado.por-idade');
-Route::post('/resultado/{prova}/por-distancia', [ResultadoController::class, 'porDistancia'])->name('resultado.por-distancia');
+Route::get('/resultado/geral', [ResultadoController::class, 'geral'])->name('resultado.geral');
+Route::get('/resultado/por-idade', [ResultadoController::class, 'porIdade'])->name('resultado.por-idade');
