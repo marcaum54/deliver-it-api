@@ -24,4 +24,9 @@ class Prova extends Model
     ];
 
     protected $fillable = ['tipo', 'data'];
+
+    public function corredores()
+    {
+        return $this->belongsToMany(Corredor::class)->withPivot('id')->withTimestamps();
+    }
 }

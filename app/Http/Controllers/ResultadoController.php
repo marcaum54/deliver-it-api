@@ -6,8 +6,8 @@ use App\Http\Requests\ResultadoRequest;
 
 class ResultadoController extends Controller
 {
-    public function store(ResultadoRequest $request)
+    public function __construct(ResultadoRequest $request)
     {
-        return $request->store();
+        $this->request = $request;
     }
 }

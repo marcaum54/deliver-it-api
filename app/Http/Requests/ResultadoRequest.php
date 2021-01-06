@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Prova;
 use App\Models\Resultado;
-use Illuminate\Support\Facades\Input;
 
 class ResultadoRequest extends BaseRequest
 {
@@ -15,16 +15,17 @@ class ResultadoRequest extends BaseRequest
     public function rules()
     {
         return [
-            'corredor_id' => 'required',
-            'prova_id' => 'required',
-
-            'hora_ini' => 'required',
-            'hora_fim' => [
+            'hora_ini' => 'required|date_format:H:i:s',
+            'hora_fim' => 'required|date_format:H:i:s|after:hora_ini',
+            'corredor_id' => 'required|exists:App\Models\Corredor,id',
+            'prova_id' => [
                 'required',
+                'exists:App\Models\Prova,id',
                 function ($attribute, $value, $fail) {
-                    $hora_ini = Input::get('hora_ini');
-                    if ($value <= $hora_ini) {
-                        $fail("O campo deve conter um valor maior que: '{$hora_ini}'");
+                    $prova = Prova::find($this->prova_id);
+                    $exists = $prova->corredores()->where('corredores.id', $this->corredor_id)->count() > 0;
+                    if (!$exists) {
+                        $fail('Inscrição inválida, não existe essa combinação de: Prova e Corredor.');
                     }
                 }
             ],
@@ -33,9 +34,14 @@ class ResultadoRequest extends BaseRequest
 
     public function store()
     {
-        $all = $this->all();
+        $prova = Prova::find($this->prova_id)->corredores()->where('corredores.id', $this->corredor_id)->first();
 
-        $corredor_id = $all['corredor_id'];
-        $prova_id = $all['prova_id'];
+        $resultado = new Resultado;
+        $resultado->corredor_prova_id = $prova->pivot->id;
+        $resultado->hora_ini = $this->hora_ini;
+        $resultado->hora_fim = $this->hora_fim;
+        $resultado->save();
+
+        return $resultado;
     }
 }

@@ -6,8 +6,8 @@ use App\Http\Requests\CorredorRequest;
 
 class CorredorController extends Controller
 {
-    public function store(CorredorRequest $request)
+    public function __construct(CorredorRequest $request)
     {
-        return $request->store();
+        $this->request = $request;
     }
 }

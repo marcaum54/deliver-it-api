@@ -19,7 +19,7 @@ class CreateResultadosTable extends Migration
             $table->bigInteger('corredor_prova_id')->unsigned();
             $table->foreign('corredor_prova_id')
                 ->references('id')
-                ->on('corredores_provas');
+                ->on('corredor_prova');
 
             $table->time('hora_ini');
             $table->time('hora_fim');

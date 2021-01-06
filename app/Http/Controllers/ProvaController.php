@@ -6,8 +6,8 @@ use App\Http\Requests\ProvaRequest;
 
 class ProvaController extends Controller
 {
-    public function store(ProvaRequest $request)
+    public function __construct(ProvaRequest $request)
     {
-        return $request->store();
+        $this->request = $request;
     }
 }

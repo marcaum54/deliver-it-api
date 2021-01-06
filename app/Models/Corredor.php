@@ -12,4 +12,9 @@ class Corredor extends Model
     protected $table = 'corredores';
 
     protected $fillable = ['nome', 'cpf', 'data_nascimento'];
+
+    public function provas()
+    {
+        return $this->belongsToMany(Prova::class)->withPivot('id')->withTimestamps();
+    }
 }

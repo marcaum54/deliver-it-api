@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCorredoresProvasTable extends Migration
+class CreateCorredorProvaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCorredoresProvasTable extends Migration
      */
     public function up()
     {
-        Schema::create('corredores_provas', function (Blueprint $table) {
+        Schema::create('corredor_prova', function (Blueprint $table) {
             $table->id();
 
             $table->unique(['corredor_id', 'prova_id']);
@@ -39,6 +39,6 @@ class CreateCorredoresProvasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('corredores_provas');
+        Schema::dropIfExists('corredor_prova');
     }
 }
