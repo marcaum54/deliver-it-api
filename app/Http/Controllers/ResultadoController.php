@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ResultadoRequest;
 use App\Models\Prova;
 use App\Models\Resultado;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ResultadoController extends Controller
 {
@@ -20,11 +18,7 @@ class ResultadoController extends Controller
         $json = [];
 
         foreach (Prova::TIPOS as $tipo) {
-            $json[$tipo] = Resultado::whereHas('corredorProva', function ($query) use ($tipo) {
-                return $query->whereHas('prova', function ($query) use ($tipo) {
-                    return $query->where('tipo', $tipo);
-                });
-            })->orderBy(DB::raw('hora_fim - hora_ini'))->get()->toArray();
+            $json[$tipo] = Resultado::melhorTempoPorTipo($tipo);
 
             foreach ($json[$tipo] as $key => &$row)
                 $row['posicao'] = $key + 1;
@@ -62,14 +56,10 @@ class ResultadoController extends Controller
         }
 
         foreach (Prova::TIPOS as $tipo) {
-            $rows = Resultado::whereHas('corredorProva', function ($query) use ($tipo) {
-                return $query->whereHas('prova', function ($query) use ($tipo) {
-                    return $query->where('tipo', $tipo);
-                });
-            })->orderBy(DB::raw('hora_fim - hora_ini'))->get()->toArray();
-
-            foreach ($rows as &$row) {
+            $rows = Resultado::melhorTempoPorTipo($tipo);
+            foreach ($rows as $key => &$row) {
                 $idade = isset($idades[$row['idade']]) ? $idades[$row['idade']] : end($idades);
+                $row['posicao'] = isset($json[$idade][$tipo]) ? count($json[$idade][$tipo]) + 1 : 1;
                 $json[$idade][$tipo][] = $row;
             }
         }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\CorredorProva;
 use App\Models\Prova;
 use App\Models\Resultado;
 
@@ -27,17 +28,26 @@ class ResultadoRequest extends BaseRequest
                     if (!$exists) {
                         $fail('Inscrição inválida, não existe essa combinação de: Prova e Corredor.');
                     }
-                }
+                },
+                function ($attribute, $value, $fail) {
+                    $corredorProva = CorredorProva::whereCorredorId($this->corredor_id)->whereProvaId($this->prova_id)->first();
+                    if ($corredorProva) {
+                        $exists = Resultado::whereCorredorProvaId($corredorProva->id)->count();
+                        if ($exists) {
+                            $fail('Resultado duplicado, já existe a mesma combinação entre: Prova e Corredor.');
+                        }
+                    }
+                },
             ],
         ];
     }
 
     public function store()
     {
-        $prova = Prova::find($this->prova_id)->corredores()->where('corredores.id', $this->corredor_id)->first();
+        $corredorProva = CorredorProva::whereCorredorId($this->corredor_id)->whereProvaId($this->prova_id)->first();
 
         $resultado = new Resultado;
-        $resultado->corredor_prova_id = $prova->pivot->id;
+        $resultado->corredor_prova_id = $corredorProva->id;
         $resultado->hora_ini = $this->hora_ini;
         $resultado->hora_fim = $this->hora_fim;
         $resultado->save();

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Resultado extends Model
 {
@@ -41,5 +42,14 @@ class Resultado extends Model
     public function getNomeCorredorAttribute()
     {
         return $this->corredorProva->corredor->nome;
+    }
+
+    public static function melhorTempoPorTipo($tipo)
+    {
+        return self::whereHas('corredorProva', function ($query) use ($tipo) {
+            return $query->whereHas('prova', function ($query) use ($tipo) {
+                return $query->where('tipo', $tipo);
+            });
+        })->orderBy(DB::raw('hora_fim - hora_ini'))->get()->toArray();
     }
 }

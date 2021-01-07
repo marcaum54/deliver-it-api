@@ -20,7 +20,7 @@ class CorredorRequest extends BaseRequest
     {
         return [
             'nome' => 'required',
-            'cpf' => 'required|numeric|regex:/^\d{11}$/',
+            'cpf' => 'required|numeric|regex:/^\d{11}$/|unique:App\Models\Corredor,cpf',
             'data_nascimento' => [
                 'required',
                 function ($attribute, $value, $fail) {

@@ -29,6 +29,7 @@ class CorredorFactory extends Factory
         return [
             'cpf' => $cpf,
             'nome' => $this->faker->name,
+            'data_nascimento' => date('Y-m-d', strtotime('-' . mt_rand(18, 99) . ' years')),
         ];
     }
 }
