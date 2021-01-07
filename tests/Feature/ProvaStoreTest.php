@@ -7,12 +7,15 @@ use Tests\TestCase;
 
 class ProvaStoreTest extends TestCase
 {
-    public function testNaoDeveAceitarRequestVazio()
+    public function testDeveInformarCampoTipo()
     {
         $response = $this->post('/prova', []);
-
-        $response->assertStatus(422);
         $response->assertJsonPath('errors.tipo.0', 'O campo tipo é obrigatório.');
+    }
+
+    public function testDeveInformarCampoData()
+    {
+        $response = $this->post('/prova', []);
         $response->assertJsonPath('errors.data.0', 'O campo data é obrigatório.');
     }
 

@@ -7,13 +7,21 @@ use Tests\TestCase;
 
 class CorredorStoreTest extends TestCase
 {
-    public function testNaoDeveAceitarRequestVazio()
+    public function testDeveInformarCampoNome()
     {
         $response = $this->post('/corredor', []);
-
-        $response->assertStatus(422);
         $response->assertJsonPath('errors.nome.0', 'O campo nome é obrigatório.');
+    }
+
+    public function testDeveInformarCampoCpf()
+    {
+        $response = $this->post('/corredor', []);
         $response->assertJsonPath('errors.cpf.0', 'O campo cpf é obrigatório.');
+    }
+
+    public function testDeveInformarCampoDataNascimento()
+    {
+        $response = $this->post('/corredor', []);
         $response->assertJsonPath('errors.data_nascimento.0', 'O campo data nascimento é obrigatório.');
     }
 

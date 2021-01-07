@@ -8,13 +8,16 @@ use Tests\TestCase;
 
 class IncricaoStoreTest extends TestCase
 {
-    public function testNaoDeveAceitarRequestVazio()
+    public function testDeveInformarCampoCorredorId()
     {
         $response = $this->post('/inscricao', []);
-
-        $response->assertStatus(422);
-        $response->assertJsonPath('errors.prova_id.0', 'O campo prova id é obrigatório.');
         $response->assertJsonPath('errors.corredor_id.0', 'O campo corredor id é obrigatório.');
+    }
+
+    public function testDeveInformarCampoProvaId()
+    {
+        $response = $this->post('/inscricao', []);
+        $response->assertJsonPath('errors.prova_id.0', 'O campo prova id é obrigatório.');
     }
 
     public function testDeveCadastrarUmaIncricao()
@@ -27,7 +30,7 @@ class IncricaoStoreTest extends TestCase
             'corredor_id' => $corredor->id,
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
 
     public function testNaoPermiteInscricaoDuplicada()
