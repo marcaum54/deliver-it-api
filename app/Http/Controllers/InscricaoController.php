@@ -8,6 +8,6 @@ class InscricaoController extends Controller
 {
     public function store(InscricaoRequest $request)
     {
-        return $request->store();
+        return response()->json($request->store(), 201);
     }
 }
