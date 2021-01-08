@@ -1,6 +1,10 @@
 # Deliver IT - API
 
-## Instalação
+## Com Docker
+
+- ```docker-compose up --build```
+
+## Sem Docker
 
 - ```git clone https://github.com/marcaum54/deliver-it-api.git```
 - ```cd deliver-it-api```
